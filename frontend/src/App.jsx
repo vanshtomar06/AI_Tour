@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Trip_bg from "/Trip_bg.png"
 import './App.css'
 import Hero from './components/custom/Hero.jsx'
-import {Button} from './components/ui/button'
+import {Button} from './components/ui/button.jsx'
 function App() {
   const [count, setCount] = useState(0)
 

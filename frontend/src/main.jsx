@@ -4,7 +4,7 @@ import './index.css'
 import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import CreateTrip from './create-trip/index.jsx'
-import Header from './components/custom/Header'
+import Header from './components/custom/Header.jsx'
 
 const router = createBrowserRouter([
   {
