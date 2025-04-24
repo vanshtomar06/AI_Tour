@@ -76,6 +76,9 @@ const getHotelsFromFallback = async (lat, lon) => {
       }
     );
 
+    console.log(response.data);
+    
+
     return response.data.data.map((hotel) => ({
       name: hotel.name,
       hotelId: hotel.hotelId,
@@ -113,6 +116,8 @@ const getHotelsFromAmadeus = async (
     );
 
     const token = tokenRes.data.access_token;
+    console.log(token);
+    
 
     // Step 2: Get nearby hotel IDs
     const hotelSearchRes = await axios.get(
@@ -134,6 +139,8 @@ const getHotelsFromAmadeus = async (
       .map((hotel) => hotel.hotelId)
       .slice(0, 10); // Limit to top 10 for performance
 
+      console.log(hotelIds);
+      
     if (!hotelIds.length) return [];
 
     // Step 3: Get hotel offers using IDs
@@ -155,20 +162,26 @@ const getHotelsFromAmadeus = async (
       }
     );
 
-    let hotels = offersRes.data.data.map((hotel) => ({
+    console.log(offersRes.data);
+    
+
+    let hotels = offersRes.data.data?.map((hotel) => ({
       name: hotel.hotel.name,
       address: hotel.hotel.address?.lines?.join(", ") || "No Address",
       rating: hotel.hotel.rating || "Not Rated",
       price: hotel.offers[0]?.price?.total || "N/A",
       currency: hotel.offers[0]?.price?.currency || "",
       image: hotel.hotel.media?.[0]?.uri || null,
-    }));
+    }))||[];
 
+    
+    
     if (hotels.length < 3) {
       const fallbackHotels = await getHotelsFromFallback(lat, lon);
       hotels = [...hotels, ...fallbackHotels];
     }
-
+    
+    console.log(hotels);
     return hotels;
   } catch (error) {
     console.error("Amadeus error:", error.response?.data || error.message);
